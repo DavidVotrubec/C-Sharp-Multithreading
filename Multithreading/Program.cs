@@ -45,6 +45,33 @@ namespace Multithreading
             thread1.Start();
             // and from the main thread
             exampleInstance.DivideRandomNumbers();
+
+
+            // Choose random action
+            for (int i = 0; i < 10; i++)
+            {
+                ChooseAction();
+            }
+
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Choose Different Action on the fly
+        /// and pass it to newly created Thread
+        /// </summary>
+        private static void ChooseAction()
+        {
+            Action action1 = () => { Console.WriteLine("huh, this is action 1 ");};
+            Action action2 = () => { Console.WriteLine("huh, this is action 2, something else "); };
+            Action actionToCall = null;
+            Random rnd = new Random();
+
+            actionToCall = rnd.Next(0, 20) > 10 ? action1 : action2;
+
+            ThreadStart start = new ThreadStart(actionToCall);
+            Thread thread = new Thread(start);
+            thread.Start();
         }
     }
 }
